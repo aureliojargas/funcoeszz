@@ -1,0 +1,23 @@
+name: Test
+on: push
+jobs:
+  all:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        zz:
+          - zza*
+          - zzb*
+          - zzc*
+    steps:
+      - uses: actions/checkout@v2
+      - run: make testador/clitest
+
+      # Using Python to avoid the gotcha with the trapped SIGPIPE:
+      # https://github.com/aureliojargas/github-actions-sandbox/pull/4
+      - run: |
+          cmd = "./run ${{ matrix.zz }}.sh"
+          import subprocess; subprocess.run(cmd, shell=True, check=True)
+        shell: python
+        working-directory: testador
