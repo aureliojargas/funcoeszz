@@ -1,0 +1,96 @@
+# https://docs.github.com/en/actions/reference
+
+name: Check
+on: push
+jobs:
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./util/requisitos.sh
+
+#  test-ubuntu-16:
+#    runs-on: ubuntu-16.04
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Install dependencies (apt)
+#        run: |
+#          sudo apt-get install bc links
+#          ./funcoeszz zzzz --teste
+#
+#      - name: Install clitest
+#        run: |
+#          curl -sOL https://raw.githubusercontent.com/aureliojargas/clitest/master/clitest
+#          chmod +x clitest
+#          mv clitest testador
+#
+#      - name: Run the tests
+#        run: |
+#          ./testador/run funcoeszz.md
+#          ./testador/run internet_travis
+#
+#  test-ubuntu-18:
+#    runs-on: ubuntu-18.04
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Install dependencies (apt)
+#        run: |
+#          sudo apt-get install links
+#          ./funcoeszz zzzz --teste
+#
+#      - name: Install clitest
+#        run: |
+#          curl -sOL https://raw.githubusercontent.com/aureliojargas/clitest/master/clitest
+#          chmod +x clitest
+#          mv clitest testador
+#
+#      # debug
+#      - run: ./funcoeszz zzzz
+#      - run: ./funcoeszz zzconjugar comemorar def || true
+#      - run: ./funcoeszz zzloteria federal 2500 || true
+#      - run: ./funcoeszz zznerdcast | wc -l || true
+#
+#      - name: Run the tests
+#        run: |
+#          ./testador/run funcoeszz.md
+#          ./testador/run internet_travis
+
+  test-ubuntu-20:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies (apt)
+        run: |
+          sudo apt-get install links
+          ./funcoeszz zzzz --teste
+
+      - name: Install clitest
+        run: |
+          curl -sOL https://raw.githubusercontent.com/aureliojargas/clitest/master/clitest
+          chmod +x clitest
+          mv clitest testador
+
+      - name: zztempo
+        continue-on-error: true
+        env:
+          TERM: xterm  # fix da zztempo
+        run: |
+          python3 -c 'from subprocess import run; run(["./testador/run zztempo.sh"], shell=True, check=True)'
+
+      - name: zzconfere
+        continue-on-error: true
+        env:
+          ZZTMPDIR: /home/runner/work
+        run: |
+          python3 -c 'from subprocess import run; run(["./testador/run zzconfere.sh"], shell=True, check=True)'
+
+      - name: Run the tests
+        env:
+          TERM: xterm  # fix da zztempo
+        run: |
+          python3 -c 'from subprocess import run; run(["./testador/run funcoeszz.md"], shell=True, check=True)'
+          python3 -c 'from subprocess import run; run(["./testador/run internet_travis"], shell=True, check=True)'
